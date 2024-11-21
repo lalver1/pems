@@ -1,0 +1,11 @@
+*.db
+*.env
+*.mo
+*.tfbackend
+*.tmp
+*.egg-info
+static/
+__pycache__/
+.coverage
+.DS_Store
+.venv
