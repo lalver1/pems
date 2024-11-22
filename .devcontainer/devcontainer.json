@@ -2,7 +2,7 @@
   "name": "caltrans/pems",
   "dockerComposeFile": ["../compose.yml"],
   "service": "dev",
-  "runServices": ["dev"],
+  "runServices": ["dev", "docs"],
   "workspaceFolder": "/home/caltrans/src",
   "postAttachCommand": ["/bin/bash", ".devcontainer/postAttach.sh"],
   "customizations": {
@@ -18,6 +18,8 @@
       },
       // Add the IDs of extensions you want installed when the container is created.
       "extensions": [
+        "bpruitt-goddard.mermaid-markdown-syntax-highlighting",
+        "DavidAnson.vscode-markdownlint",
         "eamodio.gitlens",
         "esbenp.prettier-vscode",
         "mhutchie.git-graph"
