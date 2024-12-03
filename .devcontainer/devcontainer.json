@@ -23,7 +23,8 @@
         "DavidAnson.vscode-markdownlint",
         "eamodio.gitlens",
         "esbenp.prettier-vscode",
-        "mhutchie.git-graph"
+        "mhutchie.git-graph",
+        "tamasfe.even-better-toml"
       ]
     }
   }
