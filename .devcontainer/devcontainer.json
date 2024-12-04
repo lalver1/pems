@@ -3,6 +3,7 @@
   "dockerComposeFile": ["../compose.yml"],
   "service": "dev",
   "runServices": ["dev", "docs"],
+  "forwardPorts": ["docs:8000"],
   "workspaceFolder": "/home/caltrans/src",
   "postAttachCommand": ["/bin/bash", ".devcontainer/postAttach.sh"],
   "customizations": {
