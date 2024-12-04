@@ -8,3 +8,12 @@ services:
     image: caltrans/pems:main
     volumes:
       - ./:/home/caltrans/src
+
+  docs:
+    image: caltrans/pems:main
+    entrypoint: mkdocs
+    command: serve --dev-addr "0.0.0.0:8000"
+    ports:
+      - "8000"
+    volumes:
+      - ./:/home/caltrans/src
