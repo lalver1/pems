@@ -17,3 +17,22 @@ services:
       - "8000"
     volumes:
       - ./:/home/caltrans/src
+
+  esconfig:
+    image: docker.elastic.co/elasticsearch/elasticsearch:${ELASTIC_STACK_VERSION}
+    user: "0"
+    command: ["bash", "/.local/config/setup.sh"]
+    env_file:
+      - .env
+    volumes:
+      - certs:/usr/share/elasticsearch/config/certs
+      - ./elasticstack/esconfig:/.local/config
+    healthcheck:
+      test: ["CMD-SHELL", "[ -f config/certs/es01/es01.crt ]"]
+      interval: 1s
+      timeout: 5s
+      retries: 120
+
+volumes:
+  certs:
+    driver: local
