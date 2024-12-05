@@ -26,7 +26,7 @@ RUN python -m pip install --upgrade pip
 COPY . .
 
 # install devcontainer requirements
-RUN pip install --no-cache-dir -r .devcontainer/requirements.txt
+RUN pip install -e .[dev]
 
 # install docs requirements
 RUN pip install --no-cache-dir -r docs/requirements.txt
