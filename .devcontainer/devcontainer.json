@@ -2,8 +2,16 @@
   "name": "caltrans/pems",
   "dockerComposeFile": ["../compose.yml"],
   "service": "dev",
-  "runServices": ["dev", "docs"],
-  "forwardPorts": ["docs:8000"],
+  "runServices": [
+    "dev",
+    "docs",
+    "es01",
+    "kibana",
+    "metricbeat01",
+    "filebeat01",
+    "logstash01"
+  ],
+  "forwardPorts": ["docs:8000", "kibana:5601"],
   "workspaceFolder": "/home/caltrans/src",
   "postAttachCommand": ["/bin/bash", ".devcontainer/postAttach.sh"],
   "customizations": {
