@@ -21,7 +21,7 @@ dev = [
 
 [project.urls]
 Code = "https://github.com/compilerla/pems"
-Homepage = "https://pems.dot.ca.gov/"
+Homepage = "https://compilerla.github.io/pems/"
 Issues = "https://github.com/compilerla/pems/issues"
 
 [build-system]
@@ -30,7 +30,7 @@ build-backend = "setuptools.build_meta"
 
 [tool.black]
 line-length = 127
-target-version = ['py311']
+target-version = ['py312']
 include = '\.pyi?$'
 
 [tool.setuptools.packages.find]
