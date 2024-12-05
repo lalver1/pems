@@ -138,6 +138,30 @@ services:
     command:
       - --strict.perms=false
 
+  filebeat01:
+    depends_on:
+      es01:
+        condition: service_healthy
+    image: caltrans/pems:filebeat01
+    build:
+      context: .
+      dockerfile: ./elasticstack/filebeat01/Dockerfile
+      args:
+        - ELASTIC_STACK_VERSION=${ELASTIC_STACK_VERSION}
+    volumes:
+      - certs:/usr/share/filebeat/certs
+      - filebeatdata01:/usr/share/filebeat/data
+      - "/var/lib/docker/containers:/var/lib/docker/containers:ro"
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+    environment:
+      - ELASTIC_USER=elastic
+      - ELASTIC_PASSWORD=${ELASTIC_PASSWORD}
+      - ELASTIC_HOSTS=https://es01:9200
+      - KIBANA_HOSTS=http://kibana:5601
+      - LOGSTASH_HOSTS=http://logstash01:9600
+    command:
+      - --strict.perms=false
+
 volumes:
   certs:
     driver: local
@@ -146,4 +170,6 @@ volumes:
   kibanadata:
     driver: local
   metricbeatdata01:
+    driver: local
+  filebeatdata01:
     driver: local
