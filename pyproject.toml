@@ -1,6 +1,6 @@
 [project]
 name = "pems"
-dynamic = ["version"]
+version = "0.0.1"
 description = "Caltrans Performance Measurement System (PeMS) is an application that enables access to traffic data collected by sensors that span the freeway system across all major metropolitan areas of the State of California."
 readme = "README.md"
 license = { file = "LICENSE" }
@@ -16,8 +16,7 @@ dependencies = [
 dev = [
     "black",
     "flake8",
-    "pre-commit",
-    "setuptools_scm>=8"
+    "pre-commit"
 ]
 
 [project.urls]
@@ -26,7 +25,7 @@ Homepage = "https://pems.dot.ca.gov/"
 Issues = "https://github.com/compilerla/pems/issues"
 
 [build-system]
-requires = ["setuptools>=75", "setuptools-scm>=8"]
+requires = ["setuptools>=75"]
 build-backend = "setuptools.build_meta"
 
 [tool.black]
@@ -37,6 +36,3 @@ include = '\.pyi?$'
 [tool.setuptools.packages.find]
 include = ["pems*"]
 namespaces = false
-
-[tool.setuptools_scm]
-# intentionally left blank, but we need the section header to activate the tool
