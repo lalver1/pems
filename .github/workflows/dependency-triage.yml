@@ -12,7 +12,7 @@ jobs:
     steps:
       - uses: actions/add-to-project@main
         with:
-          project-url: https://github.com/orgs/compiler/projects/${{ vars.GH_PROJECT }}
+          project-url: https://github.com/orgs/compilerla/projects/${{ vars.GH_PROJECT }}
           github-token: ${{ secrets.GH_PROJECTS_TOKEN }}
 
       - uses: EndBug/project-fields@v2
@@ -20,5 +20,5 @@ jobs:
           operation: set
           fields: Effort,Status
           values: 1,In review
-          project_url: https://github.com/orgs/compiler/projects/${{ vars.GH_PROJECT }}
+          project_url: https://github.com/orgs/compilerla/projects/${{ vars.GH_PROJECT }}
           github_token: ${{ secrets.GH_PROJECTS_TOKEN }}
