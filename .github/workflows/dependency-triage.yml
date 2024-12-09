@@ -10,6 +10,11 @@ jobs:
     # see https://docs.github.com/en/code-security/dependabot/working-with-dependabot/automating-dependabot-with-github-actions#responding-to-events
     if: github.actor == 'dependabot[bot]' || github.actor == 'pre-commit-ci[bot]'
     steps:
+      - name: add-label
+        uses: andymckay/labeler@master
+        with:
+          add-labels: "dependencies"
+    
       - uses: actions/add-to-project@main
         with:
           project-url: https://github.com/orgs/compilerla/projects/${{ vars.GH_PROJECT }}
