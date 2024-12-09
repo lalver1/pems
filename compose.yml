@@ -6,6 +6,7 @@ services:
       context: .
       dockerfile: .devcontainer/Dockerfile
     image: caltrans/pems:main
+    env_file: .env
     volumes:
       - ./:/home/caltrans/src
 
