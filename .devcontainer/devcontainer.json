@@ -4,6 +4,7 @@
   "service": "dev",
   "forwardPorts": ["docs:8000", "kibana:5601"],
   "workspaceFolder": "/home/caltrans/src",
+  "postStartCommand": ["/bin/bash", "bin/reset_db.sh"],
   "postAttachCommand": ["/bin/bash", ".devcontainer/postAttach.sh"],
   "customizations": {
     "vscode": {
