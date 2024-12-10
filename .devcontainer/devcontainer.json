@@ -3,7 +3,7 @@
   "dockerComposeFile": ["../compose.yml"],
   "service": "dev",
   "forwardPorts": ["docs:8000", "kibana:5601"],
-  "workspaceFolder": "/home/caltrans/src",
+  "workspaceFolder": "/caltrans/app",
   "postStartCommand": ["/bin/bash", "bin/reset_db.sh"],
   "postAttachCommand": ["/bin/bash", ".devcontainer/postAttach.sh"],
   "customizations": {
