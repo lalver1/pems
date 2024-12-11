@@ -1,0 +1,31 @@
+name: UI & a11y tests
+
+on:
+  workflow_call:
+  workflow_dispatch:
+  pull_request:
+    branches: [main]
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  tests-ui:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+
+      - name: Start app
+        run: |
+          cp .env.sample .env
+          docker compose up --detach app
+
+      - name: Run Lighthouse tests for a11y
+        uses: treosh/lighthouse-ci-action@12.1.0
+        with:
+          urls: http://localhost:8000/admin
+          configPath: ".github/lighthouserc.json"
+          temporaryPublicStorage: true
+          uploadArtifacts: true
