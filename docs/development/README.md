@@ -129,3 +129,93 @@ ext install ms-vscode-remote.remote-containers
 
 `ms-vscode-remote.remote-containers` is the Extension ID of the
 [Dev Containers extension from Microsoft](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers).
+
+## Get the project code
+
+Use Git to clone the repository to your local machine:
+
+```shell
+git clone https://github.com/compilerla/pems.git
+```
+
+Then change into the `pems` directory and create an environment file from the sample:
+
+```shell
+cd pems
+cp .env.sample .env
+```
+
+Feel free to inspect the environment file, but leave the defaults for now.
+
+## Run the application
+
+Start the application service with Compose:
+
+```shell
+docker compose up -d app
+```
+
+The `-d` flag starts the service in "detatched" mode, so your terminal is still available for additional commands. Without this flag, your terminal attaches to the service container's standard output.
+
+The application is now running on `http://localhost:8000`.
+
+Stop the running service with Compose:
+
+```shell
+docker compose down
+```
+
+## Open the project in a VS Code devcontainer
+
+Still in your terminal, enter the following command to open the project in VS Code:
+
+```shell
+code .
+```
+
+Once the project is loaded in VS Code, you should see a notification pop-up that will ask if you want to reopen the project in
+a devcontainer.
+
+If you don't see this notification, or if you dismissed it, use the VS Code Quick Open pane with `Ctrl`/`Cmd` + `P` and enter:
+
+```md
+> Dev Containers: Rebuild and Reopen in Container
+```
+
+The VS Code window will reload into the devcontainer.
+
+Once loaded, hit `F5` to start the application in debug mode. The application is now running on `http://localhost:8000`.
+
+## Explore the devcontainer
+
+This section describes other areas to explore within the VS Code devcontainer.
+
+### Debugger
+
+Open a Python file in the `pems/` directory and add a breakpoint by clicking the space next to a line number,
+leaving a small red circle where you clicked.
+
+Step through the running application on `http://localhost:8000` to trigger the code path you selected. Execution is paused
+and VS Code allows you to inspect the runtime environment, context, etc.
+
+### Integrated terminal
+
+Press `Ctrl` + `~` to bring up the integrated `TERMINAL` window. You are now in a `bash` terminal running inside the
+context of the devcontainer.
+
+### Docs site
+
+Open the `PORTS` tab to see port bindings for additional services. Look for the `Forwarded Address` of the `docs` service and
+click to open the docs site in your browser, running on `localhost`.
+
+Edit the documentation files in VS Code, and once saved, the local docs site will rebuild with the changes.
+
+### Test runner
+
+Use the VS Code Quick Open pane with `Ctrl`/`Cmd` + `P` and enter:
+
+```md
+> Testing: Focus
+```
+
+To focus on the `Testing` pane on the left side. Click the play button to run the unit tests.
