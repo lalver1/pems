@@ -48,6 +48,7 @@ jobs:
           source .venv/bin/activate
           pip install pipdeptree
           pip install -e .
+          mkdir -p pems/static
           pipdeptree
           pipdeptree >> pems/static/requirements.txt
 
