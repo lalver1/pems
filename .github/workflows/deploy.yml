@@ -28,7 +28,6 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     needs: [tests-ui, tests-pytest]
-    if: (!cancelled())
     permissions:
       packages: write
 
