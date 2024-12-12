@@ -18,11 +18,9 @@ defaults:
 jobs:
   tests-ui:
     uses: ./.github/workflows/tests-ui.yml
-    if: github.ref_type == 'tag'
 
   tests-pytest:
     uses: ./.github/workflows/tests-pytest.yml
-    if: github.ref_type == 'tag'
     permissions:
       pull-requests: write
       contents: write
