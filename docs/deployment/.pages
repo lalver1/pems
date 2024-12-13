@@ -1,0 +1,4 @@
+nav:
+  - release.md
+  - hotfix.md
+  - rollback.md
