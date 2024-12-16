@@ -1,0 +1,131 @@
+name: New Release
+description: Publish a new release of the PeMS app
+title: Make a Release
+labels:
+  - release
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## Prepare a new release
+
+        Use the form below to prepare a new release of the PeMS app.
+
+        Each release is coordinated by a **Release Manager**. The release manager may assign sub-tasks or ask for help
+        as-needed, but is otherwise responsible for all aspects of the release.
+
+        Each release also identifies a **Smoke Tester** responsible for carrying out Smoke Tests.
+
+        After this issue is created, use the checklist to manage the steps
+        of the release process, marking items as completed. [Read more about the
+        release process](https://compilerla.github.io/pems/deployment/release/).
+
+        Close this issue when the checklist is complete.
+    validations:
+      required: true
+  - type: input
+    id: manager
+    attributes:
+      label: Release manager
+      description: GitHub handle of who is responsible for this release; assign this issue to this user
+      placeholder: "@cal-itp-bot"
+    validations:
+      required: true
+  - type: input
+    id: smoke-tester
+    attributes:
+      label: Smoke tester
+      description: GitHub handle of who is responsible for smoke testing this release
+      placeholder: "@cal-itp-bot"
+    validations:
+      required: false
+  - type: input
+    id: version
+    attributes:
+      label: Release version
+      description: Calver-formatted version for this release
+      placeholder: YYYY.0M.R
+    validations:
+      required: true
+  - type: input
+    id: slack
+    attributes:
+      label: Slack thread
+      description: Link to the Slack thread for this release
+      placeholder: "https://slack.com/archives/ABC/XZY"
+    validations:
+      required: false
+  - type: markdown
+    attributes:
+      value: |
+        ## Release type
+
+        Reference the discussion on [the release process docs](https://compilerla.github.io/pems/deployment/release/).
+
+        * `Regular` release: a normal release.
+        * `Hotfix` release: a release to quickly fix something in production.
+        * `Rollback` release: a release to restore the app to a known working state.
+  - type: dropdown
+    id: type
+    attributes:
+      label: What type of release is this?
+      options:
+        - "Regular"
+        - "Hotfix"
+        - "Rollback"
+    validations:
+      required: true
+  - type: markdown
+    attributes:
+      value: |
+        ## Release checklist
+
+        After this issue is created, edit the description to keep only the checklist for the release type.
+  - type: checkboxes
+    id: regular-checklist
+    attributes:
+      label: Regular release checklist
+      description: Complete these items in sequence as the `Regular` release progresses
+      options:
+        - label: Ensure the `main` branch and secrets are up to date
+        - label: Ensure `test` secrets are up to date
+        - label: Create an annotated release candidate tag on `main` (`git tag -a YYYY.0M.R-rcR`)
+        - label: Push the annotated release candidate tag (`git push origin YYYY.0M.R-rcR`)
+        - label: QA the app in test
+        - label: Ensure `prod` secrets are up to date
+        - label: Create an annotated release tag on `main` (`git tag -a YYYY.0M.R`)
+        - label: Push the annotated release tag (`git push origin YYYY.0M.R`)
+        - label: Smoke Test the app in prod
+        - label: Confirm acceptance of Smoke Tests by adding a comment to this issue
+        - label: Edit release notes to link back to this Release process issue
+        - label: Edit release notes with additional context, images, animations, etc. as-needed
+  - type: checkboxes
+    id: hotfix-checklist
+    attributes:
+      label: Hotfix release checklist
+      description: Complete these items in sequence as the `Hotfix` release progresses
+      options:
+        - label: Create a hotfix branch from the latest release tag on `main` (`git checkout -b hotfix YYYY.0M.R`)
+        - label: Commit the fixes to the hotfix branch
+        - label: Ensure `prod` secrets are up to date
+        - label: Create an annotated tag on the hotfix branch (`git tag -a YYYY.0M.R`)
+        - label: Push the annotated tag (`git push origin YYYY.0M.R`)
+        - label: Smoke Test the fix in prod
+        - label: Confirm acceptance of Smoke Tests by adding a comment to this issue
+        - label: Edit release notes to link back to this Release process issue
+        - label: Edit release notes with additional context, images, animations, etc. as-needed
+        - label: Open a PR from the hotfix branch to the current state of `main`
+        - label: Merge the PR into `main`
+  - type: checkboxes
+    id: rollback-checklist
+    attributes:
+      label: Rollback release checklist
+      description: Complete these items in sequence as the `Rollback` release progresses
+      options:
+        - label: Create an annotated release tag for the rollback on the commit associated with the last known good release tag on `main` (`git tag -a YYYY.0M.R <commit-hash>`)
+        - label: Ensure `prod` secrets are up to date
+        - label: Push the annotated tag (`git push origin YYYY.0M.R`)
+        - label: Smoke Test the rollback in prod
+        - label: Confirm acceptance of Smoke Tests by adding a comment to this issue
+        - label: Edit release notes to link back to this Release process issue
+        - label: Edit release notes with additional context, images, animations, etc. as-needed
