@@ -52,13 +52,10 @@ timeline
         'logLevel': 'debug',
         'theme': 'default' ,
         'themeVariables': {
-            'cScale0': '#ffa500', 'cScaleLabel0': '#000000',
-            'cScale1': '#ffff00', 'cScaleLabel1': '#000000',
-            'cScale2': '#ffff00', 'cScaleLabel2': '#000000',
-            'cScale3': '#008000', 'cScaleLabel3': '#ffffff',
-            'cScale4': '#0000ff', 'cScaleLabel4': '#ffffff',
-            'cScale5': '#4b0082', 'cScaleLabel5': '#ffffff',
-            'cScale6': '#000000', 'cScaleLabel6': '#ffffff'
+            'cScale0': 'orange',
+            'cScaleLabel0': 'black',
+            'cScale1': 'yellow',
+            'cScaleLabel1': 'black'
         }
     }
 }%%
