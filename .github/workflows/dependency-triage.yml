@@ -7,6 +7,8 @@ on:
 jobs:
   dependency-triage:
     runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
     # see https://docs.github.com/en/code-security/dependabot/working-with-dependabot/automating-dependabot-with-github-actions#responding-to-events
     if: github.actor == 'dependabot[bot]' || github.actor == 'pre-commit-ci[bot]'
     steps:
