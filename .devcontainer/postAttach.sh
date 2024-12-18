@@ -2,5 +2,5 @@
 set -eux
 
 # initialize pre-commit
-git config --global --add safe.directory /home/$USER/src
+git config --global --add safe.directory /$USER/app
 pre-commit install --install-hooks --overwrite
