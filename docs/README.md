@@ -25,17 +25,17 @@ timeline
           : Established resources and overall scope
           : Began discovery work
 
-          Q4<br>Now
-          : Confirm site architecture
-          : Create local environment
+          Q4<br>Complete
+          : Confirmed site architecture
+          : Created local environment
           : Set up GitHub repository
-          : Scaffold app structure
-          : Create a prioritized backlog of features
+          : Scaffolded app structure
+          : Created a prioritized backlog of features
 
 %% PeMS Epics (2025)
           section 2025
 
-          Q1<br>Planned
+          Q1<br>Now
           : Create dev environment
           : Create test environment
           : Set up a working CI/CD pipeline
