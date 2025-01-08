@@ -39,7 +39,7 @@ timeline
           : Create dev environment
           : Create test environment
           : Set up a working CI/CD pipeline
-          : Launch test version of site for Caltrans users
+          : Launch test version of district-specific pages for Caltrans users
 
           Q2<br>Planned
           : Create production environment
