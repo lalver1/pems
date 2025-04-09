@@ -17,46 +17,54 @@ Our product roadmap captures what we're currently building, what we've built, an
 ```mermaid
 timeline
     title PeMS Product Roadmap
-%% PeMS Epics (2024)
-          section 2024
+    %% PeMS Epics (2024)
+    section 2024
 
-          Q3<br>Complete
-          : Project launch
-          : Established resources and overall scope
-          : Began discovery work
+    Q3<br>Complete
+    : Project launch
+    : Established resources and overall scope
+    : Began discovery work
 
-          Q4<br>Complete
-          : Confirmed site architecture
-          : Created local environment
-          : Set up GitHub repository
-          : Scaffolded app structure
-          : Created a prioritized backlog of features
+    Q4<br>Complete
+    : Confirm site architecture
+    : Set up GitHub repository
+    : Scaffold app structure
+    : Create a prioritized backlog of features
+    : Created local environment
 
-%% PeMS Epics (2025)
-          section 2025
+    %% PeMS Epics (2025)
+    section 2025
 
-          Q1<br>Now
-          : Create dev environment
-          : Create test environment
-          : Set up a working CI/CD pipeline
-          : Launch test version of district-specific pages for Caltrans users
+    Q1<br>Complete
+    : Project paused for AWS license approval
 
-          Q2<br>Planned
-          : Create production environment
+    Q2<br>Now
+    : Create dev environment
+    : Create test environment
+    : Launch test version of district-specific pages for Caltrans users
+    : Set up a working CI/CD pipeline
 
-          Q3<br>Future
-          : Compiler contract ends July 2025
+    Q3<br>Planned
+    : Create production environment
+    : Launch test version of full site for Caltrans users
 
-%%{
-    init: {
-        'logLevel': 'debug',
-        'theme': 'default' ,
-        'themeVariables': {
-            'cScale0': 'orange',
-            'cScaleLabel0': 'black',
-            'cScale1': 'yellow',
-            'cScaleLabel1': 'black'
+    Q4<br>Future
+    : Go-Live - Date TBD
+    : Compiler contract for PeMS ends September 2025, but planning to extend to Dec. 2025
+
+    %%{
+        init: {
+            'logLevel': 'debug',
+            'theme': 'default' ,
+            'themeVariables': {
+                'cScale0': '#ffa500', 'cScaleLabel0': '#000000',
+                'cScale1': '#ffff00', 'cScaleLabel1': '#000000',
+                'cScale2': '#ffff00', 'cScaleLabel2': '#000000',
+                'cScale3': '#008000', 'cScaleLabel3': '#ffffff',
+                'cScale4': '#0000ff', 'cScaleLabel4': '#ffffff',
+                'cScale5': '#4b0082', 'cScaleLabel5': '#ffffff',
+                'cScale6': '#000000', 'cScaleLabel6': '#ffffff'
+            }
         }
-    }
-}%%
+    }%%
 ```
