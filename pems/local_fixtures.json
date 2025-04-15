@@ -1,0 +1,98 @@
+[
+  {
+    "model": "districts.district",
+    "pk": 1,
+    "fields": {
+      "number": "1",
+      "name": "Eureka"
+    }
+  },
+  {
+    "model": "districts.district",
+    "pk": 2,
+    "fields": {
+      "number": "2",
+      "name": "Redding"
+    }
+  },
+  {
+    "model": "districts.district",
+    "pk": 3,
+    "fields": {
+      "number": "3",
+      "name": "Marysville / Sacramento"
+    }
+  },
+  {
+    "model": "districts.district",
+    "pk": 4,
+    "fields": {
+      "number": "4",
+      "name": "Bay Area / Oakland"
+    }
+  },
+  {
+    "model": "districts.district",
+    "pk": 5,
+    "fields": {
+      "number": "5",
+      "name": "San Luis Obispo / Santa Barbara"
+    }
+  },
+  {
+    "model": "districts.district",
+    "pk": 6,
+    "fields": {
+      "number": "6",
+      "name": "Fresno / Bakersfield"
+    }
+  },
+  {
+    "model": "districts.district",
+    "pk": 7,
+    "fields": {
+      "number": "7",
+      "name": "Los Angeles / Ventura"
+    }
+  },
+  {
+    "model": "districts.district",
+    "pk": 8,
+    "fields": {
+      "number": "8",
+      "name": "San Bernardino / Riverside"
+    }
+  },
+  {
+    "model": "districts.district",
+    "pk": 9,
+    "fields": {
+      "number": "9",
+      "name": "Bishop"
+    }
+  },
+  {
+    "model": "districts.district",
+    "pk": 10,
+    "fields": {
+      "number": "10",
+      "name": "Stockton"
+    }
+  },
+  {
+    "model": "districts.district",
+    "pk": 11,
+    "fields": {
+      "number": "11",
+      "name": "San Diego"
+    }
+  },
+  {
+    "model": "districts.district",
+    "pk": 12,
+    "fields": {
+      "number": "12",
+      "name": "Orange County"
+    }
+  }
+]
