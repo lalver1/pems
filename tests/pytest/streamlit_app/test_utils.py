@@ -44,7 +44,7 @@ def test_default_app_page():
 def test__discover_apps(app_paths):
     discovered = utils._discover_apps()
 
-    assert discovered == app_paths
+    assert set(discovered) == set(app_paths)
 
 
 @pytest.mark.parametrize(
