@@ -10,7 +10,7 @@ maintainers = [{ name = "Compiler LLC", email = "dev@compiler.la" }]
 dependencies = ["Django==5.1.6", "gunicorn==23.0.0"]
 
 [project.optional-dependencies]
-dev = ["black", "flake8", "pre-commit", "setuptools_scm>=8"]
+dev = ["black", "djlint", "flake8", "pre-commit", "setuptools_scm>=8"]
 
 test = ["coverage", "pytest", "pytest-django", "pytest-mock", "pytest-socket"]
 
@@ -33,6 +33,15 @@ branch = true
 relative_files = true
 source = ["pems", "streamlit_app"]
 omit = ["streamlit_app/apps/*"]
+
+[tool.djlint]
+ignore = "H006,H017,H031"
+indent = 2
+max_attribute_length = 127
+max_line_length = 127
+profile = "django"
+preserve_blank_lines = true
+use_gitignore = true
 
 [tool.pytest.ini_options]
 DJANGO_SETTINGS_MODULE = "pems.settings"
