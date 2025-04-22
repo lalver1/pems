@@ -1,2 +1,24 @@
-<h1>District {{ district }}</h1>
-<p>URL of route: {% url "districts:district" district %}</p>
+{% extends "districts/index.html" %}
+
+{% block headline %}
+    District {{ url_district }} - {{ district_query.name }}
+{% endblock headline %}
+
+{% block district-content %}
+    <div class="row">
+        <div class="col-lg-4 border">
+            <h2>Form</h2>
+        </div>
+        <div class="col-lg-8 border">
+            <h2>Chart</h2>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-4 border">
+            <h2>Details for {{ district_query.name }}</h2>
+        </div>
+        <div class="col-lg-8 border">
+            <h2>Map</h2>
+        </div>
+    </div>
+{% endblock district-content %}
