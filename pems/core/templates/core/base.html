@@ -1,0 +1,168 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Performance Measurement System (PeMS)</title>
+    <meta name="Author" content="State of California" />
+    <meta name="Description" content="Caltrans" />
+    <meta name="Keywords" content="California, government" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <!-- Public Sans font google API -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,100..900;1,100..900&display=block" />
+    <!-- State Template CDN CSS -->
+    <link rel="stylesheet"
+          href="https://cdn.cdt.ca.gov/cdt/statetemplate/6.4.1/css/cagov.core.css"
+          integrity="sha256-OGe4kV30/3p8qPhmiORxFvLS/NrPhdifrumYA6W5W5k="
+          crossorigin="anonymous" />
+    <link rel="stylesheet"
+          href="https://cdn.cdt.ca.gov/cdt/statetemplate/6.4.1/css/colortheme-oceanside.css"
+          integrity="sha256-PC5Yszm8bAjYYFmjeL8EeB8mHo+S4dJbQt4OwA4aTmg="
+          crossorigin="anonymous" />
+    <link rel="stylesheet" href="{% static "css/styles.css" %}">
+    <!-- State Template JavaScript CDN -->
+    <script src="https://cdn.cdt.ca.gov/cdt/statetemplate/6.4.1/js/cagov.core.js"
+            integrity="sha256-TOklMoh1iWoUNIVyzn+Wq8bS56lQWa0R8qklisvEALo="
+            defer
+            crossorigin="anonymous"></script>
+  </head>
+  <body class="primary">
+    <header role="banner" id="header" class="global-header fixed">
+      <!-- Utility header structural component -->
+      <div class="utility-header">
+        <div class="container">
+          <div class="flex-row">
+            <div class="social-media-links">
+              <div class="header-cagov-logo">
+                <a href="https://www.ca.gov">
+                  <span class="sr-only">CA.gov</span>
+                  <span class="ca-gov-logo-svg"></span>
+                </a>
+              </div>
+              <p class="official-tag">
+                <span class="desktop-only">Official website of the</span>
+                State of California
+              </p>
+            </div>
+            <div class="settings-links">
+              <a href="https://github.com/compilerla/pems/releases">PeMS {{ pems_version }}</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- header branding with light gray background -->
+      <div class="section-default">
+        <div class="branding">
+          <div class="header-organization-banner">
+            <a href="{% url 'core:index' %}">
+              <div class="logo-assets">
+                <img class="logo-img" width="150" height="26" src="{% static "img/caltranslogo.png" %}" alt="Caltrans official logo" />
+                <div class="logo-text">
+                  <span class="logo-state">Caltrans</span>
+                  <span class="logo-dept">Performance Measurement System (PeMS)</span>
+                </div>
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+      <!-- mobile navigation controls -->
+      <div class="mobile-controls">
+        <span class="mobile-control-group mobile-header-icons">
+          <!-- Add more mobile controls here. These will be on the right side of the mobile page header section -->
+        </span>
+        <div class="mobile-control-group main-nav-icons">
+          <button id="nav-icon3" type="button" class="mobile-control toggle-menu" aria-expanded="false" aria-controls="navigation">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span class="sr-only">Menu</span>
+          </button>
+        </div>
+      </div>
+      <!-- Top Level Navigation Only -->
+      <div class="navigation-search full-width-nav container">
+        <div id="head-search" class="search-container featured-search">
+          <div class="d-block d-lg-none">
+            <a href="{% url 'core:index' %}" class="drawer-logo-link first-level-link">
+              <img src="https://cdn.cdt.ca.gov/cdt/cagov/cagov-lockup/cagov-lockup-flag/cagov-lockup-flag-gradient/cagov-lockup-flag-gradient.svg"
+                   alt="CA.gov official logo"
+                   class="drawer-logo mb-4" />
+            </a>
+          </div>
+        </div>
+        <nav id="navigation" class="main-navigation singlelevel" aria-label="Main navigation">
+          <ul id="nav_list" class="top-level-nav">
+            <li class="nav-item">
+              <a href="{% url 'core:index' %}" class="first-level-link">Home</a>
+            </li>
+            <li class="nav-item">
+              <a href="{% url 'districts:index' %}" class="first-level-link">Districts</a>
+            </li>
+            <li class="nav-item">
+              <a href="" class="first-level-link">Clearinghouse</a>
+            </li>
+            <li class="nav-item">
+              <a href="" class="first-level-link">About</a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+    <div id="main-content" class="main-content">
+      <div class="container">
+        <main class="main-primary">
+          <h1>
+            {% block headline %}
+            {% endblock headline %}
+          </h1>
+          {% block inner-content %}
+          {% endblock inner-content %}
+        </main>
+      </div>
+    </div>
+    <!-- Global Footer -->
+    <footer id="footer" class="global-footer">
+      <div class="container">
+        <div class="d-flex">
+          <a href="https://www.ca.gov" class="cagov-logo">
+            <span class="sr-only">CA.gov</span>
+            <span class="ca-gov-logo-svg"></span>
+          </a>
+          <ul class="footer-links">
+            <li>
+              <a href="{% url 'core:index' %}">Conditions of use</a>
+            </li>
+            <li>
+              <a href="{% url 'core:index' %}">Privacy policy</a>
+            </li>
+          </ul>
+          <ul class="socialsharer-container">
+            <li>
+              <a href="https://github.com/compilerla/pems/">
+                <span class="ca-gov-icon-github" aria-hidden="true"></span>
+                <span class="sr-only">GitHub</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <!-- Copyright Statement -->
+      <div class="copyright">
+        <div class="container text-right">
+          <span aria-hidden="true">©</span>
+          <span id="thisyear">
+            <script>document.getElementById('thisyear').appendChild(document.createTextNode(new Date().getFullYear()))</script>
+          </span>
+          State of California
+        </div>
+      </div>
+      <button class="return-top">
+        <span class="sr-only">Back to top</span>
+      </button>
+    </footer>
+  </body>
+</html>
