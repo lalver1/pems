@@ -4,7 +4,7 @@ from pems.districts import views
 from pems.districts.models import District
 
 
-class TestIndexViewView:
+class TestIndexView:
     @pytest.fixture
     def view(app_request):
         v = views.IndexView()
@@ -17,7 +17,7 @@ class TestIndexViewView:
 
         context = view.get_context_data()
 
-        assert set(context["district_queryset"]) == set(District.objects.all())
+        assert set(context.get("districts").get("all")) == set(District.objects.all())
 
     def test_template_name(self, view):
         assert view.template_name == "districts/index.html"
@@ -37,7 +37,7 @@ class TestDistrictView:
 
         context = view.get_context_data()
 
-        assert context["url_district"] == 1
+        assert context["district_number"] == 1
 
     def test_template_name(self, view):
         assert view.template_name == "districts/district.html"

@@ -3,22 +3,26 @@ from django.views.generic import TemplateView
 from .models import District
 
 
-class IndexView(TemplateView):
-    template_name = "districts/index.html"
+class DistrictContextMixin:
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["district_queryset"] = District.objects.all()
+        districts_ctx = {}
+        districts_ctx["all"] = District.objects.all()
+        context["districts"] = districts_ctx
         return context
 
 
-class DistrictView(TemplateView):
+class IndexView(DistrictContextMixin, TemplateView):
+    template_name = "districts/index.html"
+
+
+class DistrictView(DistrictContextMixin, TemplateView):
     template_name = "districts/district.html"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        district = self.kwargs.get("district")
-        context["url_district"] = district
-        context["district_queryset"] = District.objects.all()
-        context["district_query"] = District.objects.all().get(number=district)
+        district_number = self.kwargs.get("district")
+        context["district_number"] = district_number
+        context["district"] = context.get("districts").get("all").get(number=district_number)
         return context

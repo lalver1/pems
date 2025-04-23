@@ -11,7 +11,7 @@
                 <!-- Side navigation -->
                 <nav aria-labelledby="navigation-list" class="side-navigation">
                     <ul class="list-navigation">
-                        {% for district in district_queryset %}
+                        {% for district in districts.all %}
                             <li>
                                 <a href="{% url 'districts:district' district.number %}">District {{ district.number }}</a>
                             </li>

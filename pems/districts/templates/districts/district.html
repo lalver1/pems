@@ -1,7 +1,7 @@
 {% extends "districts/index.html" %}
 
 {% block headline %}
-    District {{ url_district }} - {{ district_query.name }}
+    District {{ district_number }} - {{ district.name }}
 {% endblock headline %}
 
 {% block district-content %}
@@ -15,7 +15,7 @@
     </div>
     <div class="row">
         <div class="col-lg-4 border">
-            <h2>Details for {{ district_query.name }}</h2>
+            <h2>Details for {{ district.name }}</h2>
         </div>
         <div class="col-lg-8 border">
             <h2>Map</h2>
