@@ -1,5 +1,6 @@
 import pytest
 
+from django.urls import reverse
 from pems.districts import views
 from pems.districts.models import District
 
@@ -23,21 +24,10 @@ class TestIndexView:
         assert view.template_name == "districts/index.html"
 
 
-class TestDistrictView:
-    @pytest.fixture
-    def view(app_request):
-        v = views.DistrictView()
-        v.setup(app_request, district=1)
+@pytest.mark.django_db
+def test_district_view(client, model_District):
+    url = reverse("districts:district", kwargs={"district": 1})
+    response = client.get(url)
 
-        return v
-
-    @pytest.mark.django_db
-    @pytest.mark.usefixtures("model_District")
-    def test_get_context_data(self, view):
-
-        context = view.get_context_data()
-
-        assert context["district_number"] == 1
-
-    def test_template_name(self, view):
-        assert view.template_name == "districts/district.html"
+    assert response.status_code == 200
+    assert response.context["district"] == model_District
