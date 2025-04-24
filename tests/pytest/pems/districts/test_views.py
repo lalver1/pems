@@ -26,8 +26,8 @@ class TestIndexView:
 
 @pytest.mark.django_db
 def test_district_view(client, model_District):
-    url = reverse("districts:district", kwargs={"district": 1})
+    url = reverse("districts:district", kwargs={"district_number": model_District.number})
     response = client.get(url)
 
     assert response.status_code == 200
-    assert response.context["district"] == model_District
+    assert response.context["current_district"] == model_District

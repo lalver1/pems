@@ -19,8 +19,8 @@ class IndexView(DistrictContextMixin, TemplateView):
 
 class DistrictView(DistrictContextMixin, DetailView):
     model = District
-    context_object_name = "district"
+    context_object_name = "current_district"
     template_name = "districts/district.html"
 
     def get_object(self):
-        return District.objects.get(number__iexact=self.kwargs["district"])
+        return District.objects.get(number__iexact=self.kwargs["district_number"])
