@@ -1,0 +1,10 @@
+<!-- Side navigation -->
+<nav aria-labelledby="navigation-list" class="side-navigation">
+    <ul class="list-navigation">
+        {% for d in districts.all %}
+            <li>
+                <a href="{% url 'districts:district' d.number %}" class="{% if d.number == current_district.number %}active{% endif %}">District {{ d.number }}</a>
+            </li>
+        {% endfor %}
+    </ul>
+</nav>
