@@ -1,7 +1,46 @@
 {% extends "core/base.html" %}
+
 {% block headline %}
     Districts
 {% endblock headline %}
+
 {% block inner-content %}
-    <p>Districts</p>
+    <div class="container p-t-lg">
+        <div class="row">
+            <div class="col-lg-2 pb-lg-5" role="complementary">
+                <!-- Side navigation -->
+                <nav aria-labelledby="navigation-list" class="side-navigation">
+                    <ul class="list-navigation">
+                        {% for district in districts.all %}
+                            <li>
+                                <a href="{% url 'districts:district' district.number %}">District {{ district.number }}</a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </nav>
+            </div>
+            <div class="col-lg-10 pb-lg-5">
+
+                {% block districts-content %}
+                    <div class="row">
+                        <div class="col-lg-4 border">
+                            <h2>Form</h2>
+                        </div>
+                        <div class="col-lg-8 border">
+                            <h2>Chart</h2>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-4 border">
+                            <h2>Details</h2>
+                        </div>
+                        <div class="col-lg-8 border">
+                            <h2>Map</h2>
+                        </div>
+                    </div>
+                {% endblock districts-content %}
+
+            </div>
+        </div>
+    </div>
 {% endblock inner-content %}

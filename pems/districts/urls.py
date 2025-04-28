@@ -10,5 +10,5 @@ app_name = "districts"
 urlpatterns = [
     # /districts
     path("", views.IndexView.as_view(), name="index"),
-    path("<int:district>", views.DistrictView.as_view(), name="district"),
+    path("<int:district_number>", views.DistrictView.as_view(), name="district"),
 ]
