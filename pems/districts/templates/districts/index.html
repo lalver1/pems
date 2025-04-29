@@ -8,16 +8,9 @@
     <div class="container p-t-lg">
         <div class="row">
             <div class="col-lg-2 pb-lg-5" role="complementary">
-                <!-- Side navigation -->
-                <nav aria-labelledby="navigation-list" class="side-navigation">
-                    <ul class="list-navigation">
-                        {% for district in districts.all %}
-                            <li>
-                                <a href="{% url 'districts:district' district.number %}">District {{ district.number }}</a>
-                            </li>
-                        {% endfor %}
-                    </ul>
-                </nav>
+                {% block sidebar %}
+                    {% include "districts/navigation.html" %}
+                {% endblock sidebar %}
             </div>
             <div class="col-lg-10 pb-lg-5">
 
