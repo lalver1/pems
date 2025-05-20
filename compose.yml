@@ -20,6 +20,7 @@ services:
     entrypoint: sleep infinity
     volumes:
       - ./:/caltrans/app
+      - ${HOME}/.aws:/home/caltrans/.aws
 
   docs:
     image: caltrans/pems:dev
