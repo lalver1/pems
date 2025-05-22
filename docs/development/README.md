@@ -219,3 +219,19 @@ Use the VS Code Quick Open pane with `Ctrl`/`Cmd` + `P` and enter:
 ```
 
 To focus on the `Testing` pane on the left side. Click the play button to run the unit tests.
+
+## Work with the Cloud infrastructure
+
+You can work on the app's Cloud infrastructure in the dev container by using the `aws` and `copilot` AWS CLIs. Successfully running the commands requires the container's host to be configured for authentication with IAM Identity Center by running `aws configure sso` and going through the setup. You can use the following settings:
+
+- `SSO session name (Recommended): pems`
+- `SSO start URL [None]: url_provided_by_caltrans`
+- `SSO region [None]: us-west-2`
+- `SSO registration scopes [None]:`
+- `Default client Region [None]: us-west-2`
+- `CLI default output format (json if not specified) [None]:`
+- `Profile name [123456789011_ReadOnly]: pems`
+
+An active SSO session must be available to run the AWS commands, if it is not, run `aws sso login` inside the container to start a session.
+
+Running thes commands in the dev container is made possible by the mapping defined in the [compose file](https://github.com/compilerla/pems/blob/main/compose.yml#L23) that maps the host's AWS credentials folder to the dev container at `/home/caltrans/.aws`. For convenience, you can also set the default AWS profile that will be used in the dev container to `pems` as shown in [`.env.sample`](https://github.com/compilerla/pems/blob/main/.env.sample#L18).
