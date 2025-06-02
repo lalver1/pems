@@ -67,9 +67,10 @@ jobs:
 
       - name: Install AWS Copilot CLI
         run: |
-          curl -Lo copilot https://github.com/aws/copilot-cli/releases/latest/download/copilot-linux
-          chmod +x copilot
-          sudo mv copilot /usr/local/bin/copilot
+          mkdir -p ./.tools
+          curl -Lo ./.tools/copilot https://github.com/aws/copilot-cli/releases/latest/download/copilot-linux
+          chmod +x ./.tools/copilot
+          sudo mv ./.tools/copilot /usr/local/bin/copilot
 
       - name: Deploy web Service
         run: |
