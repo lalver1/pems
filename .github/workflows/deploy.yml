@@ -30,6 +30,8 @@ jobs:
     needs: [tests-ui, tests-pytest]
     permissions:
       packages: write
+      id-token: write
+      contents: read
 
     steps:
       - name: Checkout
@@ -57,34 +59,25 @@ jobs:
       - name: Write tag to file
         run: echo "${{ github.ref_name }}" >> pems/static/version.txt
 
-      - name: Docker Login to GitHub Container Registry
-        uses: docker/login-action@v3
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
         with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+          role-to-assume: ${{ secrets.ROLE_TO_ASSUME }}
+          aws-region: ${{ vars.AWS_REGION }}
 
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v3
+      - name: Install AWS Copilot CLI
+        run: |
+          curl -Lo copilot https://github.com/aws/copilot-cli/releases/latest/download/copilot-linux
+          chmod +x copilot
+          sudo mv copilot /usr/local/bin/copilot
 
-      - name: Set up Docker Buildx
-        id: buildx
-        uses: docker/setup-buildx-action@v3
+      - name: Deploy web Service
+        run: |
+          copilot deploy --name web --env dev
 
-      - name: Build, tag, and push image to GitHub Container Registry
-        uses: docker/build-push-action@v6
-        with:
-          platforms: linux/amd64,linux/arm64
-          builder: ${{ steps.buildx.outputs.name }}
-          build-args: GIT-SHA=${{ github.sha }}
-          cache-from: type=gha,scope=compilerla
-          cache-to: type=gha,scope=compilerla,mode=max
-          context: .
-          file: appcontainer/Dockerfile
-          push: true
-          tags: |
-            ghcr.io/${{ github.repository }}:${{ github.ref_name }}
-            ghcr.io/${{ github.repository }}:${{ github.sha }}
+      - name: Deploy streamlit Service
+        run: |
+          copilot deploy --name streamlit --env dev
 
   release:
     needs: deploy
