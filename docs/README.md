@@ -41,12 +41,14 @@ timeline
     Q2<br>Now
     : Create dev environment
     : Create test environment
-    : Launch test version of district-specific pages for Caltrans users
+    : Launch test version of district-specific pages
     : Set up a working CI/CD pipeline
 
     Q3<br>Planned
     : Create production environment
-    : Launch test version of full site for Caltrans users
+    : User testing for district-specific pages and initial features (early Q3)
+    : Launch test version of full site
+    : Additional user testing for full site (timing TBD)
 
     Q4<br>Future
     : Go-Live - Date TBD
