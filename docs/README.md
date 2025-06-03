@@ -46,7 +46,7 @@ timeline
 
     Q3<br>Planned
     : Create production environment
-    : User testing for district-specific pages and initial features (early Q3) 
+    : User testing for district-specific pages and initial features (early Q3)
     : Launch test version of full site
     : Additional user testing for full site (timing TBD)
 
