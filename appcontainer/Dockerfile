@@ -52,6 +52,23 @@ RUN useradd --create-home --shell /bin/bash $USER && \
     apt-get install -qq --no-install-recommends build-essential nginx gettext && \
     python -m pip install --upgrade pip
 
+# install AWS CLI (requires root permissions)
+# download AWS CLI to /tmp to avoid write error (23) from curl command
+WORKDIR /tmp
+RUN HOST_ARCH=$(uname -m) && \
+    case "$HOST_ARCH" in \
+      x86_64) HOST_ARCH="amd64" ;; \
+      aarch64) HOST_ARCH="arm64" ;; \
+    esac \
+    && if [ "$HOST_ARCH" = "amd64" ]; then \
+    curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"; \
+    elif [ "$HOST_ARCH" = "arm64" ]; then \
+    curl "https://awscli.amazonaws.com/awscli-exe-linux-aarch64.zip" -o "awscliv2.zip"; \
+    fi \
+    && unzip awscliv2.zip \
+    && ./aws/install \
+    && rm -rf aws awscliv2.zip
+
 # enter source directory
 WORKDIR /$USER
 
