@@ -235,3 +235,15 @@ You can work on the app's Cloud infrastructure in the dev container by using the
 An active SSO session must be available to run the AWS commands, if it is not, run `aws sso login` inside the container to start a session.
 
 Running thes commands in the dev container is made possible by the mapping defined in the [compose file](https://github.com/compilerla/pems/blob/main/compose.yml#L23) that maps the host's AWS credentials folder to the dev container at `/home/caltrans/.aws`. For convenience, you can also set the default AWS profile that will be used in the dev container to `pems` as shown in [`.env.sample`](https://github.com/compilerla/pems/blob/main/.env.sample#L18).
+
+### Useful commands
+
+Deploying
+
+- `copilot svc deploy -n service-name` to [deploy a service](https://aws.github.io/copilot-cli/docs/commands/svc-deploy/) (local code and configuration) that has already been initialized
+
+Monitoring
+
+- `copilot svc show -n service-name` to [see the environment variables and other information](https://aws.github.io/copilot-cli/docs/commands/svc-show/) associated with a service
+- `copilot svc logs -n service-name --since 1h` to [see the logs](https://aws.github.io/copilot-cli/docs/commands/svc-logs/) for the past hour of a deployed service
+- `copilot svc exec -a app-name -e environment-name -n service-name` to [gain shell access](https://aws.github.io/copilot-cli/docs/commands/svc-exec/) to a running container
