@@ -33,7 +33,6 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "pems.core",
     "pems.districts",
-    "pems.streamlit_sample",
 ]
 
 MIDDLEWARE = [
@@ -61,6 +60,7 @@ TEMPLATES = [
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
                 "pems.core.context_processors.pems_version",
+                "pems.core.context_processors.streamlit",
             ],
         },
     },
@@ -138,3 +138,6 @@ STATIC_ROOT = os.path.join(BASE_DIR, "static")
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+# Streamlit settings
+STREAMLIT_URL = os.environ.get("STREAMLIT_URL", "http://localhost:8501")
