@@ -5,5 +5,4 @@ urlpatterns = [
     path("", include("pems.core.urls")),
     path("admin/", admin.site.urls),
     path("districts/", include("pems.districts.urls")),
-    path("streamlit/", include("pems.streamlit_sample.urls")),
 ]

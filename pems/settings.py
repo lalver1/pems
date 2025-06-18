@@ -33,7 +33,6 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "pems.core",
     "pems.districts",
-    "pems.streamlit_sample",
 ]
 
 MIDDLEWARE = [
