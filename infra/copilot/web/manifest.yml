@@ -38,7 +38,7 @@ network:
 # Optional fields for more advanced use-cases.
 #
 variables: # Pass environment variables as key value pairs.
-  STREAMLIT_URL: /streamlit_app
+  STREAMLIT_URL: /streamlit
 
 secrets: # Pass secrets from AWS Systems Manager (SSM) Parameter Store.
   DJANGO_ALLOWED_HOSTS: /pems/web/DJANGO_ALLOWED_HOSTS # The key is the name of the environment variable, the value is the name of the SSM parameter.

@@ -10,8 +10,8 @@ type: Load Balanced Web Service
 http:
   # Requests to this path will be forwarded to your service.
   # To match all requests you can use the "/" path.
-  path: "/streamlit_app"
-  healthcheck: "/streamlit_app/_stcore/health"
+  path: "/streamlit"
+  healthcheck: "/streamlit/_stcore/health"
 
 # Configuration for your containers and service.
 image:
@@ -36,7 +36,7 @@ network:
 # Optional fields for more advanced use-cases.
 #
 variables: # Pass environment variables as key value pairs.
-  STREAMLIT_BASE_URL: /streamlit_app
+  STREAMLIT_BASE_URL: /streamlit
 #secrets:                      # Pass secrets from AWS Systems Manager (SSM) Parameter Store.
 #  GITHUB_TOKEN: GITHUB_TOKEN  # The key is the name of the environment variable, the value is the name of the SSM parameter.
 
