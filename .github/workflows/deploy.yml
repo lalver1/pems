@@ -75,10 +75,12 @@ jobs:
       - name: Deploy web Service
         run: |
           copilot deploy --name web --env dev
+        working-directory: ./infra
 
       - name: Deploy streamlit Service
         run: |
           copilot deploy --name streamlit --env dev
+        working-directory: ./infra
 
   release:
     needs: deploy
