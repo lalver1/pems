@@ -1,30 +1,29 @@
 #!/usr/bin/env bash
 set -eu
 
-#
 # S3 bucket name is injected by Copilot as an environment variable
 # since it was created via copilot storage init --name pems-db, the variable is 'PEMSDB_NAME'
 S3_BUCKET_NAME="$PEMSDB_NAME"
 S3_FIXTURE_PATH="fixtures.json"
-LOCAL_FIXTURE_PATH="fixtures.json"
+DJANGO_DB_FIXTURES="fixtures.json"
 
 echo "Downloading $S3_FIXTURE_PATH from bucket $S3_BUCKET_NAME"
-aws s3 cp "s3://${S3_BUCKET_NAME}/${S3_FIXTURE_PATH}" "${LOCAL_FIXTURE_PATH}"
+aws s3 cp "s3://${S3_BUCKET_NAME}/${S3_FIXTURE_PATH}" "${DJANGO_DB_FIXTURES}"
 echo "Download complete"
 
-# initialize Django
+# PostgreSQL database settings (username, host, dbname, password, port) are injected by Copilot as an environment variable
+# called 'POSTGRESWEB_SECRET' since the database was created via
+# copilot storage init -l workload -t Aurora -w web -n postgres-web --engine PostgreSQL --initial-db django
 
-bin/init.sh
+python manage.py migrate
 
-# effectively reset database by loading downloaded fixtures into the database
-echo "Loading data from ${LOCAL_FIXTURE_PATH}"
-python manage.py loaddata "${LOCAL_FIXTURE_PATH}"
-echo "Data loading complete"
+# Load data fixtures (if any)
+valid_fixtures=$(echo "$DJANGO_DB_FIXTURES" | grep -e fixtures\.json$ || test $? = 1)
 
-# start the web server
+if [[ -n "$valid_fixtures" ]]; then
+    python manage.py loaddata $DJANGO_DB_FIXTURES
+else
+    echo "No JSON fixtures to load"
+fi
 
-nginx
-
-# start the application server
-
-python -m gunicorn -c $GUNICORN_CONF pems.wsgi
+bin/start.sh

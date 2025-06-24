@@ -2,8 +2,12 @@
 Django settings for pems project.
 """
 
+from enum import StrEnum
+import json
 from pathlib import Path
 import os
+
+from django.conf import settings
 
 
 def _filter_empty(ls):
@@ -20,6 +24,24 @@ SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY", "secret")
 DEBUG = os.environ.get("DJANGO_DEBUG", "False").lower() == "true"
 
 ALLOWED_HOSTS = _filter_empty(os.environ.get("DJANGO_ALLOWED_HOSTS", "localhost").split(","))
+
+
+class RUNTIME_ENVS(StrEnum):
+    LOCAL = "local"
+    DEV = "dev"
+    TEST = "test"
+    PROD = "prod"
+
+
+def RUNTIME_ENVIRONMENT():
+    """Helper calculates the current runtime environment from ALLOWED_HOSTS."""
+
+    # usage of django.conf.settings.ALLOWED_HOSTS here (rather than the module variable directly)
+    # is to ensure dynamic calculation, e.g. for unit tests and elsewhere this setting is needed
+    env = RUNTIME_ENVS.LOCAL
+    if any(["*" in host for host in settings.ALLOWED_HOSTS]):
+        env = RUNTIME_ENVS.DEV
+    return env
 
 
 # Application definition
@@ -73,19 +95,36 @@ WSGI_APPLICATION = "pems.wsgi.application"
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
 sslmode = os.environ.get("POSTGRES_SSLMODE", "verify-full")
-sslrootcert = os.path.join(BASE_DIR, "certs", "azure_postgres_ca_bundle.pem") if sslmode == "verify-full" else None
+sslrootcert = os.path.join(BASE_DIR, "certs", "aws_global_postgres_ca_bundle.pem") if sslmode == "verify-full" else None
+
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": os.environ.get("DJANGO_DB_NAME", "django"),
-        "USER": os.environ.get("DJANGO_DB_USER", "django"),
-        "PASSWORD": os.environ.get("DJANGO_DB_PASSWORD"),
-        "HOST": os.environ.get("POSTGRES_HOSTNAME", "postgres"),
-        "PORT": os.environ.get("POSTGRES_PORT", "5432"),
-        # https://www.postgresql.org/docs/current/libpq-connect.html#LIBPQ-PARAMKEYWORDS
         "OPTIONS": {"sslmode": sslmode, "sslrootcert": sslrootcert},
     }
 }
+if RUNTIME_ENVIRONMENT() == RUNTIME_ENVS.DEV:
+    postgres_web_secret = os.environ.get("POSTGRESWEB_SECRET")
+    db_credentials = json.loads(postgres_web_secret)
+    DATABASES["default"].update(
+        {
+            "NAME": db_credentials.get("dbname"),
+            "USER": db_credentials.get("username"),
+            "PASSWORD": db_credentials.get("password"),
+            "HOST": db_credentials.get("host"),
+            "PORT": db_credentials.get("port"),
+        }
+    )
+else:
+    DATABASES["default"].update(
+        {
+            "NAME": os.environ.get("DJANGO_DB_NAME", "django"),
+            "USER": os.environ.get("DJANGO_DB_USER", "django"),
+            "PASSWORD": os.environ.get("DJANGO_DB_PASSWORD"),
+            "HOST": os.environ.get("POSTGRES_HOSTNAME", "postgres"),
+            "PORT": os.environ.get("POSTGRES_PORT", "5432"),
+        }
+    )
 
 
 # Password validation
