@@ -36,7 +36,8 @@ services:
       - POSTGRES_USER
       - POSTGRES_PASSWORD
     healthcheck:
-      test: ["CMD", "pg_isready", "-d", "${POSTGRES_DB}", "-U", "${POSTGRES_USER}"]
+      test:
+        ["CMD", "pg_isready", "-d", "${POSTGRES_DB}", "-U", "${POSTGRES_USER}"]
       interval: 10s
       timeout: 60s
       retries: 6
@@ -47,7 +48,6 @@ services:
       - pgdata:/var/lib/postgresql/data
 
   pgweb:
-    container_name: pgweb
     image: sosedoff/pgweb
     ports:
       - "${PGWEB_PORT:-8081}:8081"
