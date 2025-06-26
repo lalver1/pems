@@ -28,9 +28,6 @@ jobs:
           pip install -e .[test]
           pip install -r streamlit_app/requirements.txt
 
-      - name: Collect static files
-        run: python manage.py collectstatic --no-input
-
       - name: Run tests
         run: ./tests/pytest/run.sh
 
