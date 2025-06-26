@@ -44,6 +44,20 @@ def RUNTIME_ENVIRONMENT():
     return env
 
 
+def set_aws_db_credentials() -> None:
+    """Helper to set AWS database environment variables from secret."""
+    postgres_secret = os.environ.get("POSTGRESWEB_SECRET")
+    credentials = json.loads(postgres_secret)
+    # if we have all the required keys, set database environment variables
+    required_keys = ["host", "port", "dbname", "username", "password"]
+    if all(key in credentials for key in required_keys):
+        os.environ["POSTGRES_HOSTNAME"] = credentials["host"]
+        os.environ["POSTGRES_PORT"] = str(credentials["port"])
+        os.environ["POSTGRES_DB"] = credentials["dbname"]
+        os.environ["POSTGRES_USER"] = credentials["username"]
+        os.environ["POSTGRES_PASSWORD"] = credentials["password"]
+
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -101,28 +115,19 @@ DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
         "OPTIONS": {"sslmode": sslmode, "sslrootcert": sslrootcert},
+        "NAME": os.environ.get("DJANGO_DB_NAME", "django"),
+        "USER": os.environ.get("DJANGO_DB_USER", "django"),
+        "PASSWORD": os.environ.get("DJANGO_DB_PASSWORD"),
+        "HOST": os.environ.get("POSTGRES_HOSTNAME", "postgres"),
+        "PORT": os.environ.get("POSTGRES_PORT", "5432"),
     }
 }
 if RUNTIME_ENVIRONMENT() == RUNTIME_ENVS.DEV:
-    postgres_web_secret = os.environ.get("POSTGRESWEB_SECRET")
-    db_credentials = json.loads(postgres_web_secret)
+    set_aws_db_credentials()
     DATABASES["default"].update(
         {
-            "NAME": db_credentials.get("dbname"),
-            "USER": db_credentials.get("username"),
-            "PASSWORD": db_credentials.get("password"),
-            "HOST": db_credentials.get("host"),
-            "PORT": db_credentials.get("port"),
-        }
-    )
-else:
-    DATABASES["default"].update(
-        {
-            "NAME": os.environ.get("DJANGO_DB_NAME", "django"),
-            "USER": os.environ.get("DJANGO_DB_USER", "django"),
-            "PASSWORD": os.environ.get("DJANGO_DB_PASSWORD"),
-            "HOST": os.environ.get("POSTGRES_HOSTNAME", "postgres"),
-            "PORT": os.environ.get("POSTGRES_PORT", "5432"),
+            "HOST": os.environ.get("POSTGRES_HOSTNAME"),
+            "PORT": os.environ.get("POSTGRES_PORT"),
         }
     )
 
