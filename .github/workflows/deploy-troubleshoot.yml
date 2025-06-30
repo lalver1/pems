@@ -1,0 +1,64 @@
+name: Deploy Troubleshoot
+
+on: workflow_dispatch
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      packages: write
+      id-token: write
+      contents: read
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version-file: .github/workflows/.python-version
+          cache: pip
+          cache-dependency-path: "**/pyproject.toml"
+
+      - name: Write python packages to file
+        run: |
+          python -m venv .venv
+          source .venv/bin/activate
+          pip install pipdeptree
+          pip install -e .
+          mkdir -p pems/static
+          pipdeptree
+          pipdeptree >> pems/static/requirements.txt
+
+      - name: Write commit SHA to file
+        run: echo "${{ github.sha }}" >> pems/static/sha.txt
+
+      - name: Write tag to file
+        run: echo "${{ github.ref_name }}" >> pems/static/version.txt
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.ROLE_TO_ASSUME }}
+          aws-region: ${{ vars.AWS_REGION }}
+
+      - name: Install AWS Copilot CLI
+        run: |
+          mkdir -p ./.tools
+          curl -Lo ./.tools/copilot https://github.com/aws/copilot-cli/releases/latest/download/copilot-linux
+          chmod +x ./.tools/copilot
+          sudo mv ./.tools/copilot /usr/local/bin/copilot
+
+      - name: Deploy web Service
+        run: |
+          copilot deploy --name web --env dev
+        working-directory: ./infra
+
+      - name: Deploy streamlit Service
+        run: |
+          copilot deploy --name streamlit --env dev
+        working-directory: ./infra
