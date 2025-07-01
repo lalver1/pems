@@ -25,6 +25,7 @@
         "DavidAnson.vscode-markdownlint",
         "eamodio.gitlens",
         "esbenp.prettier-vscode",
+        "kddejong.vscode-cfn-lint",
         "mhutchie.git-graph",
         "monosans.djlint",
         "ms-python.python",

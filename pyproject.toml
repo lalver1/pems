@@ -14,7 +14,14 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
-dev = ["black", "djlint", "flake8", "pre-commit", "setuptools_scm>=8"]
+dev = [
+    "black",
+    "cfn-lint",
+    "djlint",
+    "flake8",
+    "pre-commit",
+    "setuptools_scm>=8",
+]
 
 test = ["coverage", "pytest", "pytest-django", "pytest-mock", "pytest-socket"]
 
