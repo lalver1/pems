@@ -1,0 +1,110 @@
+# CloudFormation template for GitHub Actions OIDC Identity Provider and IAM Role.
+# This template creates an IAM OIDC Identity Provider and an IAM Role that allows
+# GitHub Actions to securely authenticate with the PeMS AWS account.
+
+AWSTemplateFormatVersion: "2010-09-09"
+Description: >
+  CloudFormation template to create an IAM OIDC Identity Provider and
+  IAM Role for GitHub Actions
+
+Parameters:
+  GitHubOrgRepo:
+    Description: Name of GitHub organization and repository (e.g., "my-org/my-repo")
+    Type: String
+
+  Thumbprint:
+    Description: The thumbprint of the GitHub Actions OIDC provider's root CA certificate
+    Type: String
+    Default: d89e3bd43d5d909b47a18977aa9d5ce36cee184c
+
+Resources:
+  GitHubOIDCProvider:
+    Type: "AWS::IAM::OIDCProvider"
+    DeletionPolicy: Delete
+    Properties:
+      ClientIdList:
+        - "sts.amazonaws.com"
+      ThumbprintList:
+        - !Ref Thumbprint
+      Url: "https://token.actions.githubusercontent.com"
+
+  # This IAM Role is assumed by GitHub Actions workflows
+  GitHubActionsRole:
+    Type: "AWS::IAM::Role"
+    DeletionPolicy: Delete
+    Properties:
+      RoleName: "pems-github-actions"
+      Description: Assume and perform GitHub Actions in pems repo of the compilerla GitHub organization
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: "Allow"
+            Principal:
+              # The ARN of the OIDC provider is used as the Federated principal.
+              Federated: !Ref GitHubOIDCProvider
+            Action: "sts:AssumeRoleWithWebIdentity"
+            Condition:
+              StringEquals:
+                "token.actions.githubusercontent.com:aud": "sts.amazonaws.com"
+              StringLike:
+                "token.actions.githubusercontent.com:sub": !Sub "repo:${GitHubOrgRepo}:*"
+      Policies:
+        - PolicyName: GitHubActionsPolicy
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Sid: GetSSMParameterAll
+                Effect: Allow
+                Action: "ssm:GetParameter"
+                Resource: "arn:aws:ssm:us-west-2:715841364638:parameter/copilot/applications/pems/*"
+              - Sid: GetSSMParameter
+                Effect: Allow
+                Action: "ssm:GetParameter"
+                Resource: "arn:aws:ssm:us-west-2:715841364638:parameter/copilot/applications/pems"
+              - Sid: GetSSMParameterByPath
+                Effect: Allow
+                Action: "ssm:GetParametersByPath"
+                Resource: "arn:aws:ssm:us-west-2:715841364638:parameter/copilot/applications/pems/components/"
+              - Sid: AssumeRole
+                Effect: Allow
+                Action: "sts:AssumeRole"
+                Resource: "arn:aws:iam::715841364638:role/pems-dev-EnvManagerRole"
+              - Sid: ListStackInstances
+                Effect: Allow
+                Action: "cloudformation:ListStackInstances"
+                Resource: "arn:aws:cloudformation:us-west-2:715841364638:stackset/pems-infrastructure:ecefc290-0f7f-470a-8b9e-b6a39adf65b7"
+              - Sid: DescribeStacks
+                Effect: Allow
+                Action: "cloudformation:DescribeStacks"
+                Resource: "arn:aws:cloudformation:us-west-2:715841364638:stack/StackSet-pems-infrastructure-c95edbbc-22a7-4239-a10b-7d73ba9344c4/45d26e70-31d1-11f0-a04a-0a0876def005"
+              - Sid: GetAuthorizationToken
+                Effect: Allow
+                Action: "ecr:GetAuthorizationToken"
+                Resource: "*"
+              - Sid: "ECRImagePush"
+                Effect: "Allow"
+                Action:
+                  - "ecr:InitiateLayerUpload"
+                  - "ecr:UploadLayerPart"
+                  - "ecr:CompleteLayerUpload"
+                  - "ecr:PutImage"
+                  - "ecr:BatchCheckLayerAvailability"
+                  - "ecr:GetDownloadUrlForLayer"
+                  - "ecr:GetRepositoryPolicy"
+                  - "ecr:DescribeRepositories"
+                  - "ecr:ListImages"
+                  - "ecr:DescribeImages"
+                  - "ecr:BatchGetImage"
+                  - "ecr:GetLifecyclePolicy"
+                  - "ecr:GetLifecyclePolicyPreview"
+                  - "ecr:ListTagsForResource"
+                  - "ecr:DescribeImageScanFindings"
+                Resource: "arn:aws:ecr:us-west-2:715841364638:repository/pems/*"
+
+Outputs:
+  OIDCProviderArn:
+    Description: The ARN of the created OIDC Provider
+    Value: !Ref GitHubOIDCProvider
+  GitHubActionsRoleArn:
+    Description: The ARN of the IAM Role for GitHub Actions
+    Value: !GetAtt GitHubActionsRole.Arn

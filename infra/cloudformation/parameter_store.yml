@@ -1,0 +1,86 @@
+# CloudFormation template for creating SSM Parameters that are not managed
+# by AWS Copilot.
+
+AWSTemplateFormatVersion: "2010-09-09"
+Description: CloudFormation template to create various parameters in AWS SSM Parameter Store
+
+Parameters:
+  DjangoAllowedHosts:
+    Type: CommaDelimitedList
+    Description: A comma-separated list of host/domain names that a Django application is permitted to serve
+    Default: "*"
+  DjangoDBFixtures:
+    Type: String
+    Description: Name of Django database fixtures json file
+    Default: "fixtures.json"
+  DjangoDBName:
+    Type: String
+    Description: Name of Django database
+    Default: "django"
+  DjangoDBUser:
+    Type: String
+    Description: Name of user for Django database
+    Default: "django"
+  DjangoDBPassword:
+    Type: String
+    Description: Password of user for Django database
+    Default: "django_password"
+
+Resources:
+  DjangoAllowedHostsParameter:
+    Type: "AWS::SSM::Parameter"
+    DeletionPolicy: Delete
+    Properties:
+      Name: /pems/web/DJANGO_ALLOWED_HOSTS
+      Description: Django security setting that defines a list of host/domain names that a Django application is permitted to serve
+      Type: StringList
+      Value: !Join [",", !Ref DjangoAllowedHosts]
+  DjangoDBFixturesParameter:
+    Type: "AWS::SSM::Parameter"
+    DeletionPolicy: Delete
+    Properties:
+      Name: /pems/web/DJANGO_DB_FIXTURES
+      Description: Name of Django database fixtures json file
+      Type: String
+      Value: !Ref DjangoDBFixtures
+  DjangoDBNameParameter:
+    Type: "AWS::SSM::Parameter"
+    DeletionPolicy: Delete
+    Properties:
+      Name: /pems/web/DJANGO_DB_NAME
+      Description: Name of Django database
+      Type: String
+      Value: !Ref DjangoDBName
+  DjangoDBUserParameter:
+    Type: "AWS::SSM::Parameter"
+    DeletionPolicy: Delete
+    Properties:
+      Name: /pems/web/DJANGO_DB_USER
+      Description: Name of user for Django database
+      Type: String
+      Value: !Ref DjangoDBUser
+  DjangoDBPasswordParameter:
+    Type: "AWS::SSM::Parameter"
+    DeletionPolicy: Delete
+    Properties:
+      Name: /pems/web/DJANGO_DB_PASSWORD
+      Description: Password of user for Django database
+      Type: String
+      Value: !Ref DjangoDBPassword
+
+Outputs:
+  DjangoAllowedHostsParameterName:
+    Description: Name of the DJANGO_ALLOWED_HOSTS SSM Parameter
+    Value: !Ref DjangoAllowedHostsParameter
+  DjangoDBFixturesParameterName:
+    Description: Name of the DJANGO_DB_FIXTURES SSM Parameter
+    Value: !Ref DjangoDBFixturesParameter
+  DjangoDBNameParameterName:
+    Description: Name of the DJANGO_DB_NAME SSM Parameter
+    Value: !Ref DjangoDBNameParameter
+  DjangoDBUserParameterName:
+    Description: Name of the DJANGO_DB_USER SSM Parameter
+    Value: !Ref DjangoDBUserParameter
+  DjangoDBPasswordParameterName:
+    Description: Name of the DJANGO_DB_PASSWORD SSM Parameter
+    Value: !Ref DjangoDBPasswordParameter
