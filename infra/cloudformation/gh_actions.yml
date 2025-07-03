@@ -7,16 +7,6 @@ Description: >
   CloudFormation template to create an IAM OIDC Identity Provider and
   IAM Role for GitHub Actions
 
-Parameters:
-  GitHubOrgRepo:
-    Description: Name of GitHub organization and repository (e.g., "my-org/my-repo")
-    Type: String
-
-  Thumbprint:
-    Description: The thumbprint of the GitHub Actions OIDC provider's root CA certificate
-    Type: String
-    Default: d89e3bd43d5d909b47a18977aa9d5ce36cee184c
-
 Resources:
   GitHubOIDCProvider:
     Type: "AWS::IAM::OIDCProvider"
@@ -25,7 +15,7 @@ Resources:
       ClientIdList:
         - "sts.amazonaws.com"
       ThumbprintList:
-        - !Ref Thumbprint
+        - "{{resolve:ssm:/pems/github_thumbprint}}"
       Url: "https://token.actions.githubusercontent.com"
 
   # This IAM Role is assumed by GitHub Actions workflows
@@ -47,7 +37,7 @@ Resources:
               StringEquals:
                 "token.actions.githubusercontent.com:aud": "sts.amazonaws.com"
               StringLike:
-                "token.actions.githubusercontent.com:sub": !Sub "repo:${GitHubOrgRepo}:*"
+                "token.actions.githubusercontent.com:sub": "repo:{{resolve:ssm:/pems/github_org_repo}}:*"
       Policies:
         - PolicyName: GitHubActionsPolicy
           PolicyDocument:
