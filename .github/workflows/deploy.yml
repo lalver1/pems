@@ -65,6 +65,13 @@ jobs:
           role-to-assume: ${{ secrets.ROLE_TO_ASSUME }}
           aws-region: ${{ vars.AWS_REGION }}
 
+      - name: Update GitHub connection-related AWS resources
+        run: |
+          aws cloudformation update-stack \
+          --stack-name pems-github-actions
+          --template-body file://infra/cloudformation/gh_actions.yaml \
+          --capabilities CAPABILITY_IAM
+
       - name: Install AWS Copilot CLI
         run: |
           mkdir -p ./.tools
