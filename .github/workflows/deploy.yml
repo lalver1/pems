@@ -15,6 +15,12 @@ defaults:
   run:
     shell: bash
 
+concurrency:
+  # this ternary operator-like expression gives us the name of the deployment environment (see https://docs.github.com/en/actions/learn-github-actions/expressions#example)
+  # and ensures that only one deployment per environment is in progress at a time
+  group: ${{ github.ref_type != 'tag' && github.ref_name || contains(github.ref, '-rc') && 'test' || 'prod' }}
+  cancel-in-progress: true
+
 jobs:
   tests-ui:
     uses: ./.github/workflows/tests-ui.yml
@@ -32,6 +38,8 @@ jobs:
       packages: write
       id-token: write
       contents: read
+    env:
+      COPILOT_ENVIRONMENT: ${{ github.ref_type != 'tag' && github.ref_name || contains(github.ref, '-rc') && 'test' || 'prod' }}
 
     steps:
       - name: Checkout
@@ -81,12 +89,12 @@ jobs:
 
       - name: Deploy web Service
         run: |
-          copilot deploy --name web --env dev
+          [ "$COPILOT_ENVIRONMENT" = "main" ] && copilot deploy --name web --env dev || copilot deploy --name web --env "$COPILOT_ENVIRONMENT"
         working-directory: ./infra
 
       - name: Deploy streamlit Service
         run: |
-          copilot deploy --name streamlit --env dev
+          [ "$COPILOT_ENVIRONMENT" = "main" ] && copilot deploy --name streamlit --env dev || copilot deploy --name streamlit --env "$COPILOT_ENVIRONMENT"
         working-directory: ./infra
 
   release:
