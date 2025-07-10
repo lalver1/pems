@@ -33,7 +33,7 @@ network:
   connect: true # Enable Service Connect for intra-environment traffic between services.
   vpc:
     security_groups:
-      - from_cfn: ${COPILOT_APPLICATION_NAME}-${COPILOT_ENVIRONMENT_NAME}-postgreswebSecurityGroup
+      - from_cfn: ${COPILOT_APPLICATION_NAME}-${COPILOT_ENVIRONMENT_NAME}-postgresSecurityGroup
 # storage:
 # readonly_fs: true       # Limit to read-only access to mounted root filesystems.
 
@@ -50,8 +50,8 @@ secrets: # Pass secrets from AWS Systems Manager (SSM) Parameter Store.
   DJANGO_DB_USER: /pems/web/${COPILOT_ENVIRONMENT_NAME}/DJANGO_DB_USER
   DJANGO_DB_PASSWORD: /pems/web/${COPILOT_ENVIRONMENT_NAME}/DJANGO_DB_PASSWORD
   DJANGO_DB_FIXTURES: /pems/web/${COPILOT_ENVIRONMENT_NAME}/DJANGO_DB_FIXTURES
-  POSTGRESWEB_SECRET:
-    from_cfn: ${COPILOT_APPLICATION_NAME}-${COPILOT_ENVIRONMENT_NAME}-postgreswebAuroraSecret
+  POSTGRES_SECRET:
+    from_cfn: ${COPILOT_APPLICATION_NAME}-${COPILOT_ENVIRONMENT_NAME}-postgresAuroraSecret
 # You can override any of the values defined above by environment.
 #environments:
 #  test:
