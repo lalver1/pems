@@ -17,7 +17,7 @@ Resources:
       Description: !Sub
         - Grants CRUD access to the S3 bucket ${Bucket}
         - Bucket:
-            { Fn::ImportValue: { Fn::Sub: "${App}-${Env}-s3webBucketName" } }
+            Fn::ImportValue: !Sub "${App}-${Env}-s3webBucketName"
       PolicyDocument:
         Version: "2012-10-17"
         Statement:
@@ -33,10 +33,8 @@ Resources:
             Resource: !Sub
               - ${ BucketARN }/*
               - BucketARN:
-                  {
-                    Fn::ImportValue:
-                      { Fn::Sub: "${App}-${Env}-s3webBucketARN" },
-                  }
+                  Fn::ImportValue: !Sub "${App}-${Env}-s3webBucketARN"
+
           - Sid: S3ListAction
             Effect: Allow
             Action: s3:ListBucket
@@ -47,7 +45,8 @@ Outputs:
   s3webNameBucketName:
     # Injected as S3WEB_NAME_BUCKET_NAME environment variable into your main container.
     Description: "The name of a user-defined bucket."
-    Value: { Fn::ImportValue: { Fn::Sub: "${App}-${Env}-s3webBucketName" } }
+    Value:
+      Fn::ImportValue: !Sub "${App}-${Env}-s3webBucketName"
   s3webBucketAccessPolicy:
     Description: "The IAM::ManagedPolicy to attach to the task role"
     Value: !Ref s3webBucketAccessPolicy
