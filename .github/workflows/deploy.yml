@@ -75,7 +75,7 @@ jobs:
       - name: Update GitHub connection-related AWS resources
         run: |
           aws cloudformation update-stack \
-          --stack-name pems-github-actions
+          --stack-name pems-github-actions \
           --template-body file://infra/cloudformation/gh_actions.yaml \
           --capabilities CAPABILITY_IAM
 
