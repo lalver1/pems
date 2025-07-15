@@ -76,7 +76,7 @@ jobs:
         run: |
           aws cloudformation update-stack \
           --stack-name pems-github-actions \
-          --template-body file://infra/cloudformation/gh_actions.yaml \
+          --template-body file://infra/cloudformation/gh_actions.yml \
           --capabilities CAPABILITY_IAM
 
       - name: Install AWS Copilot CLI
