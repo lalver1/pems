@@ -2,6 +2,9 @@ name: Deploy Troubleshoot
 
 on: workflow_dispatch
 
+permissions:
+  contents: read
+
 defaults:
   run:
     shell: bash
@@ -9,6 +12,7 @@ defaults:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    environment: ${{ github.ref_type != 'tag' && 'dev' || contains(github.ref, '-rc') && 'test' || 'prod' }}
     permissions:
       packages: write
       id-token: write
@@ -24,41 +28,17 @@ jobs:
           cache: pip
           cache-dependency-path: "**/pyproject.toml"
 
-      - name: Write python packages to file
+      - name: Troubleshoot env
         run: |
-          python -m venv .venv
-          source .venv/bin/activate
-          pip install pipdeptree
-          pip install -e .
-          mkdir -p pems/static
-          pipdeptree
-          pipdeptree >> pems/static/requirements.txt
+          echo "Ref type"
+          echo ${{ github.ref_type }}
+          echo "Environment"
+          echo ${{ vars.NAME }}
 
-      - name: Write commit SHA to file
-        run: echo "${{ github.sha }}" >> pems/static/sha.txt
+      - name: Dump GitHub context
+        id: github_context_step
+        run: echo '${{ toJSON(github) }}'
 
-      - name: Write tag to file
-        run: echo "${{ github.ref_name }}" >> pems/static/version.txt
-
-      - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          role-to-assume: ${{ secrets.ROLE_TO_ASSUME }}
-          aws-region: ${{ vars.AWS_REGION }}
-
-      - name: Install AWS Copilot CLI
-        run: |
-          mkdir -p ./.tools
-          curl -Lo ./.tools/copilot https://github.com/aws/copilot-cli/releases/latest/download/copilot-linux
-          chmod +x ./.tools/copilot
-          sudo mv ./.tools/copilot /usr/local/bin/copilot
-
-      - name: Deploy web Service
-        run: |
-          copilot deploy --name web --env dev
-        working-directory: ./infra
-
-      - name: Deploy streamlit Service
-        run: |
-          copilot deploy --name streamlit --env dev
-        working-directory: ./infra
+      - name: Dump Job context
+        id: job_context_step
+        run: echo '${{ toJSON(job) }}'
